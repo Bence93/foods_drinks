@@ -37,6 +37,10 @@
 *.iml
 *.ipr
 
+# https://github.com/github/gitignore/blob/master/Java.gitignore
+
+*.class
+
 # CMake
 cmake-build-*/
 
