@@ -1,4 +1,4 @@
-package table;
+package com.example.foodsanddrinks.models;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Food {
+public class Drink {
     private String name;
     private double price;
     private String group;
 
     @Builder
-    public Food(String name, double price, String group) {
+    public Drink(String name, double price, String group) {
         this.name = name;
         this.price = price;
         this.group = group;
