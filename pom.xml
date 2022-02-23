@@ -65,6 +65,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>${project.basedir}/src/main/java/FoodsanddrinksApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -82,42 +92,43 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>io.fabric8</groupId>-->
-<!--                <artifactId>fabric8-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <images>-->
-<!--                        <image>-->
-<!--                            <name>foodanddrink</name>-->
-<!--                            <build>-->
-<!--                                <dockerFileDir>${project.basedir}/src/main/resources/docker/</dockerFileDir>-->
-<!--                                <assembly>-->
-<!--                                    <descriptorRef>artifact</descriptorRef>-->
-<!--                                </assembly>-->
-<!--                                <tags>-->
-<!--                                    <tag>table-latest</tag>-->
-<!--                                    <tag>table-4.0</tag>-->
-<!--                                </tags>-->
-<!--                                <assembly>-->
-<!--                                    <inline>-->
-<!--                                        <files>-->
-<!--                                            <file>-->
-<!--                                                <source>${project.build.directory}/table-spring.jar</source>-->
-<!--                                                <outputDirectory>./opt</outputDirectory>-->
-<!--                                                <destName>table-spring.jar</destName>-->
-<!--                                            </file>-->
-<!--                                        </files>-->
-<!--                                    </inline>-->
-<!--                                </assembly>-->
-<!--                            </build>-->
-<!--                        </image>-->
-<!--                    </images>-->
-<!--                    <authConfig>-->
-<!--                        <username>bence88</username>-->
-<!--                        <password>Pipa88887</password>-->
-<!--                    </authConfig>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>4.4.1</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>foodanddrink</name>
+                            <build>
+                                <contextDir>${project.basedir}/src/main/resources/docker/</contextDir>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <tags>
+                                    <tag>foodanddrinks-latest</tag>
+                                    <tag>foodanddrinks-4.0</tag>
+                                </tags>
+                                <assembly>
+                                    <inline>
+                                        <files>
+                                            <file>
+                                                <source>${project.build.directory}/foodsanddrinks-2.6.3.jar</source>
+                                                <outputDirectory>./opt</outputDirectory>
+                                                <destName>foodanddrinks-2.6.3.jar</destName>
+                                            </file>
+                                        </files>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                    <authConfig>
+                        <username>bence88</username>
+                        <password>Pipa88887</password>
+                    </authConfig>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
