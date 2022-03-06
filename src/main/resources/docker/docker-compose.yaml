@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    environment:
+     # POSTGRES_ROOT_PASSWORD: foodsanddrinks
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=foodsanddrinks
+      - POSTGRES_PASSWORD=foodsanddrinks
+    ports:
+      - '5432:5432'
+    restart: on-failure
+    volumes:
+      - ${PWD}/../../disks/sql:/var/lib/postgresql/data
+
+  keycloak:
+    image: jboss/keycloak:16.1.1
+    ports:
+      - "6080:8080"
+    environment:
+      - KEYCLOAK_PASSWORD=foods
+      - KEYCLOAK_USER=admin
+      - DB_VENDOR=POSTGRES
+      - DB_USER=foodsanddrinks
+      - DB_PASSWORD=foodsanddrinks
+      - DB_ADDR=db
+      - DB_DATABASE=keycloak
+      - DB_PORT=5432
+      - KEYCLOAK_IMPORT=/tmp/example-realm.json
+    volumes:
+      - ${PWD}/realm-export.json:/tmp/example-realm.json
+    depends_on:
+      - db

@@ -98,3 +98,4 @@ fabric.properties
 *.rar
 
 /target/
+/src/main/disks/
