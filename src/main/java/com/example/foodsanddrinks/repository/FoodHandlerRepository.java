@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class FoodHandlerRepository {
@@ -21,10 +23,8 @@ public class FoodHandlerRepository {
 
     //delete food
     public void delete(String name) {
-        Food food = (Food) FoodHandlerRepository.foods.stream().filter(food1 -> food1.getName().equals(name));
-        if (food.getName() == name) {
-            FoodHandlerRepository.foods.remove(food);
-        }
+//        Food food = FoodHandlerRepository.foods.stream().filter(food1 -> food1.getName().equals(name)).findFirst().get();
+        FoodHandlerRepository.foods.removeIf(food1 -> food1.getName().equals(name));
     }
 
     //get all food
