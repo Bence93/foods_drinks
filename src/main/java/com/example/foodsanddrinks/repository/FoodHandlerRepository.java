@@ -1,6 +1,7 @@
 package com.example.foodsanddrinks.repository;
 
 import com.example.foodsanddrinks.models.Food;
+import com.example.foodsanddrinks.services.FoodExceptions;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,9 +23,11 @@ public class FoodHandlerRepository {
     }
 
     //delete food
-    public void delete(String name) {
+    public void delete(String name) throws FoodExceptions {
 //        Food food = FoodHandlerRepository.foods.stream().filter(food1 -> food1.getName().equals(name)).findFirst().get();
-        FoodHandlerRepository.foods.removeIf(food1 -> food1.getName().equals(name));
+        if(!FoodHandlerRepository.foods.removeIf(food1 -> food1.getName().equals(name))) {
+            throw new FoodExceptions("food is not existing!!!!!!");
+        };
     }
 
     //get all food

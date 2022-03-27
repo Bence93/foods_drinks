@@ -18,6 +18,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Random;
 
@@ -52,10 +53,28 @@ public class FoodAndDrinkController {
                     description = "delete ok",
                     content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Food.class)))}
             ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Wrong parameters (invalid parameters)",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ApiError.class)
+                            )
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "That food is not available",
+                    content = {@Content(mediaType = "application/json")}
+            ),
     })
     @Operation(summary = "Delete Food")
     @DeleteMapping(path = "/delete/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteFood(
+            @NotEmpty(message = "error.food.name.notset")
+            @NotBlank(message = "error.food.name.notset")
+            @Size(min=2, max = 10, message = "error.food.name.short_or_long")
             @Parameter(description = "Food's name", required = true, example = "Pite")
             @PathVariable(name = "name", required = true) String name) {
         foodHandler.delete(name);
@@ -93,6 +112,5 @@ public class FoodAndDrinkController {
     ) throws Exception {
         foodHandler.add(newFood.getName(), newFood.getPrice(), newFood.getGroup());
         return newFood;
-
     }
 }
