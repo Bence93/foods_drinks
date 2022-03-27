@@ -1,5 +1,6 @@
 package com.example.foodsanddrinks.rest;
 
+import com.example.foodsanddrinks.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.foodsanddrinks.repository.FoodHandlerRepository;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Random;
 
@@ -60,18 +64,35 @@ public class FoodAndDrinkController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "add ok",
+                    description = "New food added.",
                     content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Food.class)))}
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Food already added.",
+                    content = {@Content(mediaType = "application/json")}
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Wrong parameters (invalid parameters)",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ApiError.class)
+                            )
+                    }
             ),
     })
     @Operation(summary = "Add Food")
     @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed("user")
     public Food addFood(
+            @Valid
             @Parameter(description = "New Food",required = true)
             @RequestBody(required = true) Food newFood
     ) throws Exception {
         foodHandler.add(newFood.getName(), newFood.getPrice(), newFood.getGroup());
         return newFood;
+
     }
 }
